@@ -1,28 +1,27 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
-const FALLBACK_IMG = 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80'
-
 const INITIAL_PRODUCTS = [
-  { id: 1, name: 'Caffe Latte', desc: 'Smooth creamy espresso', price: 25000, stock: 20, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&q=80' },
-  { id: 2, name: 'Cappuccino', desc: 'Espresso with milk foam', price: 26000, stock: 20, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80' },
-  { id: 3, name: 'Americano', desc: 'Classic black coffee', price: 20000, stock: 20, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=600&q=80' },
-  { id: 4, name: 'Espresso', desc: 'Strong single shot espresso', price: 18000, stock: 25, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600&q=80' },
-  { id: 5, name: 'Caramel Macchiato', desc: 'Espresso, milk & caramel', price: 29000, stock: 15, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1485808191679-5f86510681a4?w=600&q=80' },
-  { id: 6, name: 'Vanilla Latte', desc: 'Latte with vanilla syrup', price: 27000, stock: 18, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80' },
-  { id: 7, name: 'Matcha Latte', desc: 'Japanese matcha blend', price: 28000, stock: 15, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=600&q=80' },
-  { id: 8, name: 'Chocolate Latte', desc: 'Rich chocolate milk', price: 27000, stock: 12, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?w=600&q=80' },
-  { id: 9, name: 'Red Velvet Latte', desc: 'Creamy red velvet drink', price: 30000, stock: 10, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=600&q=80' },
-  { id: 10, name: 'Strawberry Milk', desc: 'Fresh strawberry milk', price: 26000, stock: 14, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80' },
-  { id: 11, name: 'Thai Tea', desc: 'Sweet Thai tea with milk', price: 22000, stock: 20, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?w=600&q=80' },
-  { id: 12, name: 'Lemon Tea', desc: 'Fresh lemon iced tea', price: 20000, stock: 22, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=600&q=80' },
-  { id: 13, name: 'Croissant', desc: 'Buttery French pastry', price: 22000, stock: 18, cat: 'Snack', img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80' },
-  { id: 14, name: 'Brownies', desc: 'Choco brownies cake', price: 24000, stock: 12, cat: 'Snack', img: 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=600&q=80' },
-  { id: 15, name: 'Cheesecake', desc: 'Soft creamy cheesecake', price: 32000, stock: 8, cat: 'Snack', img: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=600&q=80' },
-  { id: 16, name: 'French Fries', desc: 'Crispy golden fries', price: 18000, stock: 25, cat: 'Snack', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80' },
-  { id: 17, name: 'Chicken Sandwich', desc: 'Grilled chicken sandwich', price: 35000, stock: 10, cat: 'Snack', img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600&q=80' },
-  { id: 18, name: 'Pancake Honey', desc: 'Fluffy pancake + honey', price: 28000, stock: 9, cat: 'Snack', img: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=80' },
-]
+  { id: 1, name: 'Caffe Latte', desc: 'Smooth creamy espresso', price: 25000, stock: 20, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600' },
+  { id: 2, name: 'Cappuccino', desc: 'Espresso with milk foam', price: 26000, stock: 20, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600' },
+  { id: 3, name: 'Americano', desc: 'Classic black coffee', price: 20000, stock: 20, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=600' },
+  { id: 4, name: 'Espresso', desc: 'Strong single shot', price: 22000, stock: 20, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600' },
+  { id: 5, name: 'Caramel Macchiato', desc: 'Espresso with caramel sauce', price: 29000, stock: 15, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1485808191679-5f86510681a4?w=600' },
+  { id: 6, name: 'Vanilla Latte', desc: 'Latte with vanilla syrup', price: 28000, stock: 15, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600' },
+  { id: 7, name: 'Red Velvet Latte', desc: 'Red velvet creamy latte', price: 30000, stock: 12, cat: 'Coffee', img: 'https://images.unsplash.com/photo-1577805947697-89e18249d767?w=600' },
+  { id: 8, name: 'Matcha Latte', desc: 'Japanese matcha blend', price: 28000, stock: 15, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1536013455962-2d9b9b47b7c8?w=600' },
+  { id: 9, name: 'Chocolate Latte', desc: 'Rich chocolate milk', price: 27000, stock: 12, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=600' },
+  { id: 10, name: 'Strawberry Milk', desc: 'Fresh strawberry milk', price: 26000, stock: 15, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=600' },
+  { id: 11, name: 'Thai Tea', desc: 'Thai orange sweet tea', price: 25000, stock: 15, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?w=600' },
+  { id: 12, name: 'Lemon Tea', desc: 'Fresh tea with lemon', price: 23000, stock: 15, cat: 'Non-Coffee', img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600' },
+  { id: 13, name: 'Croissant', desc: 'Buttery French pastry', price: 22000, stock: 18, cat: 'Snack', img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600' },
+  { id: 14, name: 'Brownies', desc: 'Chocolate brownies', price: 24000, stock: 15, cat: 'Snack', img: 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=600' },
+  { id: 15, name: 'Cheesecake', desc: 'Creamy blueberry cheesecake', price: 32000, stock: 10, cat: 'Snack', img: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=600' },
+  { id: 16, name: 'French Fries', desc: 'Crispy golden fries', price: 20000, stock: 20, cat: 'Snack', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600' },
+  { id: 17, name: 'Pancake Honey', desc: 'Fluffy pancake with honey', price: 28000, stock: 12, cat: 'Snack', img: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600' },
+  { id: 18, name: 'Chicken Sandwich', desc: 'Grilled chicken sandwich', price: 30000, stock: 12, cat: 'Snack', img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600' },
+];
 
 const money = value =>
   new Intl.NumberFormat('id-ID', {
@@ -42,10 +41,10 @@ const readStorage = (key, fallback) => {
 
 function App() {
   const [products, setProducts] = useState(() =>
-    readStorage('woro_products_v2', INITIAL_PRODUCTS)
+    readStorage('woro_products', INITIAL_PRODUCTS)
   )
   const [orders, setOrders] = useState(() =>
-    readStorage('woro_orders_v2', [])
+    readStorage('woro_orders', [])
   )
 
   const [page, setPage] = useState('Point of Sale')
@@ -65,13 +64,6 @@ function App() {
   const [productModal, setProductModal] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
 
-  const [orderSearch, setOrderSearch] = useState('')
-  const [statusFilter, setStatusFilter] = useState('All')
-  const [selectedOrder, setSelectedOrder] = useState(null)
-  const [reportPeriod, setReportPeriod] = useState('7 Days')
-
-  const paymentLock = useRef(false)
-
   const [productForm, setProductForm] = useState({
     name: '',
     desc: '',
@@ -82,11 +74,11 @@ function App() {
   })
 
   useEffect(() => {
-    localStorage.setItem('woro_products_v2', JSON.stringify(products))
+    localStorage.setItem('woro_products', JSON.stringify(products))
   }, [products])
 
   useEffect(() => {
-    localStorage.setItem('woro_orders_v2', JSON.stringify(orders))
+    localStorage.setItem('woro_orders', JSON.stringify(orders))
   }, [orders])
 
   const categories = [
@@ -99,8 +91,10 @@ function App() {
       const matchesSearch = product.name
         .toLowerCase()
         .includes(search.toLowerCase())
+
       const matchesCategory =
         category === 'All' || product.cat === category
+
       return matchesSearch && matchesCategory
     })
   }, [products, search, category])
@@ -131,98 +125,20 @@ function App() {
     product => product.stock > 0 && product.stock < 15
   ).length
 
-  const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0)
-
-  const completedOrders = orders.filter(
-    order => order.status === 'Selesai'
-  ).length
-
-  const averageOrder = orders.length
-    ? totalRevenue / orders.length
-    : 0
-
-  const totalItemsSold = orders.reduce(
-    (sum, order) =>
-      sum + order.items.reduce((itemSum, item) => itemSum + item.qty, 0),
-    0
-  )
-
-  const filteredOrders = orders.filter(order => {
-    const matchesSearch =
-      order.id.toLowerCase().includes(orderSearch.toLowerCase()) ||
-      order.items.some(item =>
-        item.name.toLowerCase().includes(orderSearch.toLowerCase())
-      )
-    const matchesStatus =
-      statusFilter === 'All' || order.status === statusFilter
-    return matchesSearch && matchesStatus
-  })
-
-  const reportOrders = orders.filter(order => {
-    if (reportPeriod === 'All') return true
-    const orderDate = new Date(order.date)
-    const now = new Date()
-    if (reportPeriod === 'Today') {
-      return orderDate.toDateString() === now.toDateString()
-    }
-    const days = reportPeriod === '7 Days' ? 7 : 30
-    const startDate = new Date()
-    startDate.setDate(now.getDate() - (days - 1))
-    startDate.setHours(0, 0, 0, 0)
-    return orderDate >= startDate && orderDate <= now
-  })
-
-  const reportRevenue = reportOrders.reduce(
-    (sum, order) => sum + order.total,
-    0
-  )
-
-  const reportItems = reportOrders.reduce(
-    (sum, order) =>
-      sum + order.items.reduce((itemSum, item) => itemSum + item.qty, 0),
-    0
-  )
-
-  const bestSellingProducts = Object.values(
-    reportOrders.reduce((result, order) => {
-      order.items.forEach(item => {
-        if (!result[item.id]) {
-          result[item.id] = {
-            id: item.id,
-            name: item.name,
-            qty: 0,
-            revenue: 0
-          }
-        }
-        result[item.id].qty += item.qty
-        result[item.id].revenue += item.price * item.qty
-      })
-      return result
-    }, {})
-  ).sort((a, b) => b.qty - a.qty)
-
-  const paymentBreakdown = ['Cash', 'QRIS'].map(method => {
-    const methodOrders = reportOrders.filter(
-      order => order.paymentMethod === method
-    )
-    return {
-      method,
-      count: methodOrders.length,
-      revenue: methodOrders.reduce((sum, order) => sum + order.total, 0)
-    }
-  })
-
   const addToCart = product => {
     if (product.stock <= 0) {
       alert('Stok produk habis.')
       return
     }
+
     const existing = cart.find(item => item.id === product.id)
     const currentQty = existing ? existing.qty : 0
+
     if (currentQty >= product.stock) {
       alert('Jumlah pesanan melebihi stok tersedia.')
       return
     }
+
     if (existing) {
       setCart(current =>
         current.map(item =>
@@ -244,12 +160,15 @@ function App() {
       current
         .map(item => {
           if (item.id !== id) return item
+
           const product = products.find(p => p.id === id)
           const nextQty = item.qty + amount
+
           if (nextQty > product.stock) {
             alert('Stok tidak mencukupi.')
             return item
           }
+
           return { ...item, qty: nextQty }
         })
         .filter(item => item.qty > 0)
@@ -268,57 +187,57 @@ function App() {
   }
 
   const completePayment = () => {
-    if (paymentLock.current) return
     if (cart.length === 0) {
       alert('Keranjang masih kosong.')
       return
     }
-    const invalidItem = cart.find(item => {
+
+    const stockChanged = cart.some(item => {
       const latestProduct = products.find(p => p.id === item.id)
       return !latestProduct || latestProduct.stock < item.qty
     })
-    if (invalidItem) {
-      alert(`Stok ${invalidItem.name} tidak mencukupi. Periksa keranjang.`)
+
+    if (stockChanged) {
+      alert('Stok berubah atau tidak mencukupi. Periksa kembali pesanan.')
       return
     }
+
     if (paymentMethod === 'Cash' && cash < total) {
       alert('Uang yang diterima belum mencukupi.')
       return
     }
+
     if (paymentMethod === 'QRIS' && !qrisPaid) {
       alert('Konfirmasi pembayaran QRIS simulasi terlebih dahulu.')
       return
     }
-    paymentLock.current = true
+
     const newOrder = {
       id: `WC-${Date.now()}`,
       date: new Date().toISOString(),
-      items: cart.map(item => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        qty: item.qty
-      })),
+      items: cart.map(item => ({ ...item })),
       orderType,
       table: orderType === 'Dine In' ? table : 'Take Away',
       subtotal,
       discount: discountValue,
       tax,
-      taxRate: 10,
       total,
       paymentMethod,
       cashReceived: paymentMethod === 'Cash' ? cash : total,
       change: paymentMethod === 'Cash' ? change : 0,
       status: 'Diproses'
     }
+
     setProducts(current =>
       current.map(product => {
         const orderedItem = cart.find(item => item.id === product.id)
+
         return orderedItem
           ? { ...product, stock: product.stock - orderedItem.qty }
           : product
       })
     )
+
     setOrders(current => [newOrder, ...current])
     setReceipt(newOrder)
     resetCart()
@@ -327,15 +246,15 @@ function App() {
   const updateOrderStatus = id => {
     setOrders(current =>
       current.map(order =>
-        order.id === id && order.status === 'Diproses'
-          ? { ...order, status: 'Selesai' }
+        order.id === id
+          ? {
+              ...order,
+              status:
+                order.status === 'Diproses' ? 'Selesai' : 'Diproses'
+            }
           : order
       )
     )
-  }
-
-  const reopenReceipt = order => {
-    setReceipt(order)
   }
 
   const openAddProduct = () => {
@@ -366,8 +285,10 @@ function App() {
 
   const saveProduct = event => {
     event.preventDefault()
+
     const price = Number(productForm.price)
     const stock = Number(productForm.stock)
+
     if (
       !productForm.name.trim() ||
       !Number.isFinite(price) ||
@@ -378,14 +299,17 @@ function App() {
       alert('Masukkan nama, harga, dan stok yang valid.')
       return
     }
+
     const productData = {
       ...productForm,
       name: productForm.name.trim(),
       price,
       stock,
       desc: productForm.desc.trim() || 'Freshly made for you',
-      img: productForm.img.trim() || FALLBACK_IMG
+      img: productForm.img.trim() ||
+        'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600'
     }
+
     if (editingProduct !== null) {
       setProducts(current =>
         current.map(product =>
@@ -400,6 +324,7 @@ function App() {
         { id: Date.now(), ...productData }
       ])
     }
+
     setProductModal(false)
   }
 
@@ -408,6 +333,7 @@ function App() {
       alert('Produk sedang ada di keranjang. Hapus dari keranjang terlebih dahulu.')
       return
     }
+
     if (window.confirm('Hapus produk ini?')) {
       setProducts(current => current.filter(p => p.id !== id))
     }
@@ -526,7 +452,7 @@ function App() {
               <div className="menu-toolbar">
                 <div>
                   <h2>Menu Products</h2>
-                  <p>Choose your customer's order. ({filteredProducts.length} menu)</p>
+                  <p>Choose your customer's order.</p>
                 </div>
                 <input
                   type="search"
@@ -556,7 +482,7 @@ function App() {
                     disabled={product.stock <= 0}
                     onClick={() => addToCart(product)}
                   >
-                    <img src={product.img} alt={product.name} onError={e => { e.target.onerror = null; e.target.src = FALLBACK_IMG }} />
+                    <img src={product.img} alt={product.name} />
                     <div className="pos-product-info">
                       <b>{product.name}</b>
                       <strong>{money(product.price)}</strong>
@@ -621,7 +547,7 @@ function App() {
               </div>
 
               <div className="cart-calculation">
-                <label>Discount (Rp) - Nominal</label>
+                <label>Discount (Rp)</label>
                 <input
                   type="number"
                   min="0"
@@ -775,7 +701,7 @@ function App() {
               ).map(product => (
                 <article className="p-card" key={product.id}>
                   <div className="p-img-wrap">
-                    <img src={product.img} alt={product.name} onError={e => { e.target.onerror = null; e.target.src = FALLBACK_IMG }} />
+                    <img src={product.img} alt={product.name} />
                     <span className="cat-pill">{product.cat}</span>
                     <span className={`stock-pill ${product.stock < 15 ? 'low' : ''}`}>
                       {product.stock === 0 ? 'Out of Stock' : `${product.stock} in stock`}
@@ -807,38 +733,20 @@ function App() {
             <div className="pm-head">
               <div>
                 <h2>Order Management</h2>
-                <p>Track, review, and update customer orders.</p>
+                <p>Track and update customer orders.</p>
               </div>
               <span className="cart-count">{orders.length} total orders</span>
             </div>
 
-            <div className="orders-toolbar">
-              <input
-                type="search"
-                placeholder="Search order ID or product..."
-                value={orderSearch}
-                onChange={e => setOrderSearch(e.target.value)}
-              />
-
-              <select
-                value={statusFilter}
-                onChange={e => setStatusFilter(e.target.value)}
-              >
-                <option value="All">All Status</option>
-                <option value="Diproses">Diproses</option>
-                <option value="Selesai">Selesai</option>
-              </select>
-            </div>
-
-            {filteredOrders.length === 0 ? (
+            {orders.length === 0 ? (
               <div className="empty-state">
                 <span>☕</span>
-                <h3>No orders found</h3>
-                <p>Try another search or complete a new transaction.</p>
+                <h3>No orders yet</h3>
+                <p>Completed transactions will appear here.</p>
               </div>
             ) : (
               <div className="orders-list">
-                {filteredOrders.map(order => (
+                {orders.map(order => (
                   <article className="order-card" key={order.id}>
                     <div className="order-card-head">
                       <div>
@@ -847,7 +755,6 @@ function App() {
                           {new Date(order.date).toLocaleString('id-ID')}
                         </small>
                       </div>
-
                       <span className={`status-pill ${
                         order.status === 'Selesai' ? 'done' : 'processing'
                       }`}>
@@ -862,114 +769,49 @@ function App() {
                     </div>
 
                     <div className="order-items-summary">
-                      {order.items.map((item, index) => (
-                        <span key={`${order.id}-${item.id}-${index}`}>
+                      {order.items.map(item => (
+                        <span key={item.id}>
                           {item.name} × {item.qty}
                         </span>
                       ))}
                     </div>
 
-                    <div className="order-actions">
-                      <button
-                        className="btn-view"
-                        onClick={() => setSelectedOrder(order)}
-                      >
-                        View Details
-                      </button>
-
-                      <button
-                        className="btn-view"
-                        onClick={() => reopenReceipt(order)}
-                      >
-                        Print Receipt
-                      </button>
-
-                      {order.status === 'Diproses' && (
-                        <button
-                          className="btn-finish"
-                          onClick={() => updateOrderStatus(order.id)}
-                        >
-                          Mark as Selesai
-                        </button>
-                      )}
-                    </div>
+                    <button
+                      className={order.status === 'Selesai' ? 'btn-reopen' : 'btn-finish'}
+                      onClick={() => updateOrderStatus(order.id)}
+                    >
+                      {order.status === 'Selesai'
+                        ? 'Reopen Order'
+                        : 'Mark as Selesai'}
+                    </button>
                   </article>
                 ))}
               </div>
             )}
-
-            <div className="orders-footer">
-              <span>Diproses: {orders.filter(o => o.status === 'Diproses').length}</span>
-              <span>Selesai: {completedOrders}</span>
-            </div>
           </section>
         )}
 
         {page === 'Dashboard' && (
-          <section className="no-print">
-            <div className="summary-grid">
-              <div className="summary-card">
-                <span>Total Revenue</span>
-                <strong>{money(totalRevenue)}</strong>
-                <small>All recorded transactions</small>
-              </div>
-
-              <div className="summary-card">
-                <span>Total Orders</span>
-                <strong>{orders.length}</strong>
-                <small>{completedOrders} completed orders</small>
-              </div>
-
-              <div className="summary-card">
-                <span>Total Products</span>
-                <strong>{products.length}</strong>
-                <small>{totalStock} items in stock</small>
-              </div>
-
-              <div className="summary-card warning-card">
-                <span>Low Stock</span>
-                <strong>{lowStock}</strong>
-                <small>Products need attention</small>
-              </div>
+          <section className="summary-grid no-print">
+            <div className="summary-card">
+              <span>Total Products</span>
+              <strong>{products.length}</strong>
+              <small>Products in menu</small>
             </div>
-
-            <div className="report-card dashboard-recent">
-              <div className="dashboard-section-head">
-                <div>
-                  <h3>Recent Orders</h3>
-                  <p>Your latest customer transactions.</p>
-                </div>
-
-                <button
-                  className="btn-view"
-                  onClick={() => setPage('Orders')}
-                >
-                  View All
-                </button>
-              </div>
-
-              {orders.length === 0 ? (
-                <div className="report-empty">No transactions recorded yet.</div>
-              ) : (
-                orders.slice(0, 5).map(order => (
-                  <div className="dashboard-order-row" key={order.id}>
-                    <div>
-                      <b>{order.id}</b>
-                      <small>
-                        {new Date(order.date).toLocaleString('id-ID')}
-                      </small>
-                    </div>
-
-                    <span className={`status-pill ${
-                      order.status === 'Selesai' ? 'done' : 'processing'
-                    }`}>
-                      {order.status}
-                    </span>
-
-                    <strong>{money(order.total)}</strong>
-                  </div>
-                ))
-              )}
+            <div className="summary-card">
+              <span>Total Orders</span>
+              <strong>{orders.length}</strong>
+              <small>Recorded transactions</small>
+            </div>
+            <div className="summary-card">
+              <span>Completed Orders</span>
+              <strong>{orders.filter(o => o.status === 'Selesai').length}</strong>
+              <small>Finished orders</small>
+            </div>
+            <div className="summary-card">
+              <span>Total Sales</span>
+              <strong>{money(orders.reduce((s, o) => s + o.total, 0))}</strong>
+              <small>All recorded orders</small>
             </div>
           </section>
         )}
@@ -979,119 +821,26 @@ function App() {
             <div className="pm-head">
               <div>
                 <h2>Sales Reports</h2>
-                <p>Business performance based on recorded transactions.</p>
+                <p>Summary of recorded transactions.</p>
               </div>
-
-              <select
-                className="report-filter"
-                value={reportPeriod}
-                onChange={e => setReportPeriod(e.target.value)}
-              >
-                <option value="Today">Today</option>
-                <option value="7 Days">Last 7 Days</option>
-                <option value="30 Days">Last 30 Days</option>
-                <option value="All">All Time</option>
-              </select>
             </div>
-
             <div className="summary-grid">
               <div className="summary-card">
                 <span>Total Revenue</span>
-                <strong>{money(reportRevenue)}</strong>
-                <small>Based on selected period</small>
+                <strong>{money(orders.reduce((s, o) => s + o.total, 0))}</strong>
               </div>
-
               <div className="summary-card">
                 <span>Total Orders</span>
-                <strong>{reportOrders.length}</strong>
-                <small>Recorded transactions</small>
+                <strong>{orders.length}</strong>
               </div>
-
               <div className="summary-card">
-                <span>Items Sold</span>
-                <strong>{reportItems}</strong>
-                <small>Total product quantities</small>
+                <span>Cash Payments</span>
+                <strong>{orders.filter(o => o.paymentMethod === 'Cash').length}</strong>
               </div>
-
               <div className="summary-card">
-                <span>Average Order Value</span>
-                <strong>
-                  {money(reportOrders.length ? reportRevenue / reportOrders.length : 0)}
-                </strong>
-                <small>Average revenue per order</small>
+                <span>QRIS Payments</span>
+                <strong>{orders.filter(o => o.paymentMethod === 'QRIS').length}</strong>
               </div>
-            </div>
-
-            <div className="report-grid">
-              <div className="report-card">
-                <h3>Best Selling Products</h3>
-                <p>Products ranked by quantity sold.</p>
-
-                {bestSellingProducts.length === 0 ? (
-                  <div className="report-empty">No sales data yet.</div>
-                ) : (
-                  bestSellingProducts.slice(0, 5).map((item, index) => (
-                    <div className="report-product-row" key={item.id}>
-                      <div className="rank-number">{index + 1}</div>
-                      <div className="report-product-info">
-                        <b>{item.name}</b>
-                        <small>{item.qty} items sold</small>
-                      </div>
-                      <strong>{money(item.revenue)}</strong>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              <div className="report-card">
-                <h3>Payment Methods</h3>
-                <p>Transactions by payment method.</p>
-
-                {paymentBreakdown.map(item => (
-                  <div className="payment-report-row" key={item.method}>
-                    <div>
-                      <b>{item.method}</b>
-                      <small>{item.count} transactions</small>
-                    </div>
-                    <strong>{money(item.revenue)}</strong>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="report-card report-table-card">
-              <h3>Recent Transactions</h3>
-              <p>Transactions included in this report.</p>
-
-              {reportOrders.length === 0 ? (
-                <div className="report-empty">No transactions in this period.</div>
-              ) : (
-                <div className="report-table-wrap">
-                  <table className="report-table">
-                    <thead>
-                      <tr>
-                        <th>Order ID</th>
-                        <th>Date</th>
-                        <th>Payment</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {reportOrders.map(order => (
-                        <tr key={order.id}>
-                          <td>{order.id}</td>
-                          <td>{new Date(order.date).toLocaleDateString('id-ID')}</td>
-                          <td>{order.paymentMethod}</td>
-                          <td>{order.status}</td>
-                          <td>{money(order.total)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
             </div>
           </section>
         )}
@@ -1159,96 +908,6 @@ function App() {
         </div>
       )}
 
-      {selectedOrder && (
-        <div
-          className="modal-overlay no-print"
-          onClick={() => setSelectedOrder(null)}
-        >
-          <div
-            className="product-modal order-detail-modal"
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="modal-header">
-              <div>
-                <h2>Order Details</h2>
-                <p>{selectedOrder.id}</p>
-              </div>
-
-              <button
-                className="modal-close"
-                onClick={() => setSelectedOrder(null)}
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="detail-meta">
-              <span>Date</span>
-              <b>{new Date(selectedOrder.date).toLocaleString('id-ID')}</b>
-
-              <span>Order Type</span>
-              <b>{selectedOrder.table}</b>
-
-              <span>Payment</span>
-              <b>{selectedOrder.paymentMethod}</b>
-
-              <span>Status</span>
-              <b>{selectedOrder.status}</b>
-            </div>
-
-            <h3 className="detail-title">Ordered Items</h3>
-
-            {selectedOrder.items.map((item, index) => (
-              <div className="receipt-line" key={`${item.id}-${index}`}>
-                <span>{item.name} × {item.qty}</span>
-                <b>{money(item.price * item.qty)}</b>
-              </div>
-            ))}
-
-            <div className="receipt-divider" />
-
-            <div className="receipt-line">
-              <span>Subtotal</span>
-              <b>{money(selectedOrder.subtotal)}</b>
-            </div>
-
-            <div className="receipt-line">
-              <span>Discount</span>
-              <b>- {money(selectedOrder.discount)}</b>
-            </div>
-
-            <div className="receipt-line">
-              <span>Tax (10%)</span>
-              <b>{money(selectedOrder.tax)}</b>
-            </div>
-
-            <div className="receipt-line receipt-total">
-              <span>Total</span>
-              <b>{money(selectedOrder.total)}</b>
-            </div>
-
-            <div className="modal-actions">
-              <button
-                className="btn-cancel"
-                onClick={() => setSelectedOrder(null)}
-              >
-                Close
-              </button>
-
-              <button
-                className="btn-add"
-                onClick={() => {
-                  setReceipt(selectedOrder)
-                  setSelectedOrder(null)
-                }}
-              >
-                Print Receipt
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {receipt && (
         <div className="receipt-overlay">
           <div className="receipt-modal">
@@ -1266,13 +925,13 @@ function App() {
                 <span>Date</span>
                 <b>{new Date(receipt.date).toLocaleString('id-ID')}</b>
                 <span>Order Type</span><b>{receipt.table}</b>
-                <span>Payment</span><b>{receipt.paymentMethod}{receipt.paymentMethod === 'QRIS' ? ' (Simulasi)' : ''}</b>
+                <span>Payment</span><b>{receipt.paymentMethod}</b>
               </div>
 
               <div className="receipt-divider" />
 
-              {receipt.items.map((item, index) => (
-                <div className="receipt-line" key={`${item.id}-${index}`}>
+              {receipt.items.map(item => (
+                <div className="receipt-line" key={item.id}>
                   <span>{item.name} × {item.qty}</span>
                   <b>{money(item.price * item.qty)}</b>
                 </div>
@@ -1293,32 +952,18 @@ function App() {
                 <span>Total</span><b>{money(receipt.total)}</b>
               </div>
               <div className="receipt-line">
-                <span>{receipt.paymentMethod === 'Cash' ? 'Cash Received' : 'QRIS Paid'}</span>
-                <b>{money(receipt.cashReceived)}</b>
+                <span>Cash Received</span><b>{money(receipt.cashReceived)}</b>
               </div>
-
-              {receipt.paymentMethod === 'Cash' && (
-                <div className="receipt-line">
-                  <span>Change</span>
-                  <b>{money(receipt.change)}</b>
-                </div>
-              )}
+              <div className="receipt-line">
+                <span>Change</span><b>{money(receipt.change)}</b>
+              </div>
 
               <div className="receipt-divider" />
               <p className="receipt-thanks">Have a wonderful day ☕</p>
-              {receipt.paymentMethod === 'QRIS' && (
-                <p className="receipt-thanks">QRIS - Simulasi, bukan pembayaran sungguhan</p>
-              )}
             </div>
 
             <div className="receipt-actions no-print">
-              <button
-                className="btn-cancel"
-                onClick={() => {
-                  setReceipt(null)
-                  paymentLock.current = false
-                }}
-              >
+              <button className="btn-cancel" onClick={() => setReceipt(null)}>
                 Close
               </button>
               <button className="btn-add" onClick={printReceipt}>
